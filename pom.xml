@@ -186,6 +186,13 @@
                 <version>${calvert.version}</version>
             </dependency>
 
+            <!-- 测试模块-->
+            <dependency>
+                <groupId>com.calvert</groupId>
+                <artifactId>cavlert-obj</artifactId>
+                <version>${calvert.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -196,6 +203,7 @@
         <module>calvert-quartz</module>
         <module>calvert-generator</module>
         <module>calvert-common</module>
+        <module>calvert-obj</module>
     </modules>
     <packaging>pom</packaging>
 

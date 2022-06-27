@@ -61,6 +61,13 @@
             <artifactId>calvert-generator</artifactId>
         </dependency>
 
+        <!-- 测试模块-->
+        <dependency>
+            <groupId>com.calvert</groupId>
+            <artifactId>calvert-obj</artifactId>
+            <version>3.8.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
