@@ -54,6 +54,16 @@ public class SysNoticeServiceImpl implements ISysNoticeService
         return noticeMapper.insertNotice(notice);
     }
 
+    @Override
+    public int isreadNoticeById(Long noticeId) {
+        return 0;
+    }
+
+    @Override
+    public int isreadNoticeByIds(Long[] noticeId) {
+        return 0;
+    }
+
     /**
      * 修改公告
      * 

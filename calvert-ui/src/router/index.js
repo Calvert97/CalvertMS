@@ -79,12 +79,27 @@ export const constantRoutes = [
     component: Layout,
     hidden: true,
     redirect: 'noredirect',
+    alwaysShow: true,
     children: [
       {
         path: 'profile',
         component: () => import('@/views/system/user/profile/index'),
         name: 'Profile',
         meta: { title: '个人中心', icon: 'user' }
+      }
+    ]
+  },
+  {
+    path: '/notice',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'readNotice',
+        component: () => import('@/views/system/notice/readNotice/index'),
+        name: 'ReadNotice',
+        meta: { title: '阅读公告内容', icon: 'user' }
       }
     ]
   }

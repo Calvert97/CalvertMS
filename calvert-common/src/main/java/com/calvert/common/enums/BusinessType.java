@@ -18,6 +18,11 @@ public enum BusinessType
     INSERT,
 
     /**
+     * 已读
+     */
+    READ,
+
+    /**
      * 修改
      */
     UPDATE,

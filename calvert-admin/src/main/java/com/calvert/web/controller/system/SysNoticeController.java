@@ -65,7 +65,16 @@ public class SysNoticeController extends BaseController
         notice.setCreateBy(getUsername());
         return toAjax(noticeService.insertNotice(notice));
     }
-
+    /**
+     * 批量已读通知公告
+     */
+    @PreAuthorize("@ss.hasPermi('system:notice:isread')")
+    @Log(title = "通知公告", businessType = BusinessType.READ)
+    @PutMapping("/{noticeIds}")
+    public AjaxResult isread(@PathVariable Long[] noticeIds)
+    {
+        return toAjax(noticeService.isreadNoticeByIds(noticeIds));
+    }
     /**
      * 修改通知公告
      */

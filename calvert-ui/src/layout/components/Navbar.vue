@@ -17,18 +17,20 @@
 <!--          <ruo-yi-doc id="ruoyi-doc" class="right-menu-item hover-effect" />-->
 <!--        </el-tooltip>-->
 
+        <notification id="notification" class="right-menu-item hover-effect" />
+
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
-        <el-tooltip content="布局大小" effect="dark" placement="bottom">
+<!--        <el-tooltip content="布局大小" effect="dark" placement="bottom">-->
           <size-select id="size-select" class="right-menu-item hover-effect" />
-        </el-tooltip>
+<!--        </el-tooltip>-->
 
       </template>
 
-      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="click">
+      <el-dropdown class="avatar-container right-menu-item hover-effect" trigger="hover">
         <div class="avatar-wrapper">
           <img :src="avatar" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
+<!--          <i class="el-icon-caret-bottom" />-->
         </div>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/user/profile">
@@ -56,6 +58,8 @@ import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
 import RuoYiGit from '@/components/RuoYi/Git'
 import RuoYiDoc from '@/components/RuoYi/Doc'
+import Notification from '@/components/HeaderNotification'
+
 
 export default {
   components: {
@@ -66,7 +70,8 @@ export default {
     SizeSelect,
     Search,
     RuoYiGit,
-    RuoYiDoc
+    RuoYiDoc,
+    Notification
   },
   computed: {
     ...mapGetters([

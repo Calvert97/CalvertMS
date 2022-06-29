@@ -35,6 +35,22 @@ public interface ISysNoticeService
     public int insertNotice(SysNotice notice);
 
     /**
+     * 批量已读公告
+     *
+     * @param noticeId 公告信息
+     * @return 结果
+     */
+    public int isreadNoticeById(Long noticeId);
+
+    /**
+     * 批量已读公告
+     *
+     * @param noticeId 公告信息
+     * @return 结果
+     */
+    public int isreadNoticeByIds(Long[] noticeId);
+
+    /**
      * 修改公告
      * 
      * @param notice 公告信息

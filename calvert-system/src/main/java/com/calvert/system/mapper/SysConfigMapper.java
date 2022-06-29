@@ -2,12 +2,14 @@ package com.calvert.system.mapper;
 
 import java.util.List;
 import com.calvert.system.domain.SysConfig;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 参数配置 数据层
  * 
  * @author ruoyi
  */
+@Mapper
 public interface SysConfigMapper
 {
     /**
