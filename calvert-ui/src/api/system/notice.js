@@ -26,6 +26,24 @@ export function addNotice(data) {
   })
 }
 
+// 已读公告
+export function updateNoticeToRead (data) {
+  return request({
+    // url: '/system/notice/updateNoticeToRead/' + noticeIds,
+    url: '/system/notice/updateNoticeToRead',
+    method: 'put',
+    data: data
+  })
+}
+
+// 已读公告
+export function updateNoticesToRead (noticeId) {
+  return request({
+    url: '/system/notice/updateNoticesToRead' + noticeId,
+    method: 'put'
+  })
+}
+
 // 修改公告
 export function updateNotice(data) {
   return request({

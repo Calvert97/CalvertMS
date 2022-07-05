@@ -1,6 +1,7 @@
 package com.calvert.web.controller.system;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -31,6 +32,7 @@ public class SysNoticeController extends BaseController
 {
     @Autowired
     private ISysNoticeService noticeService;
+
 
     /**
      * 获取通知公告列表
@@ -65,16 +67,29 @@ public class SysNoticeController extends BaseController
         notice.setCreateBy(getUsername());
         return toAjax(noticeService.insertNotice(notice));
     }
-    /**
-     * 批量已读通知公告
+
+     /**
+     * 将通知公告标记为已读
      */
-    @PreAuthorize("@ss.hasPermi('system:notice:isread')")
-    @Log(title = "通知公告", businessType = BusinessType.READ)
-    @PutMapping("/{noticeIds}")
-    public AjaxResult isread(@PathVariable Long[] noticeIds)
+//    @PreAuthorize("@ss.hasPermi('system:notice:updateNoticeToRead')")
+    @Log(title = "公告标记为已读", businessType = BusinessType.UPDATE)
+    @PutMapping("/updateNoticeToRead")
+    public AjaxResult updateNoticeToRead(@Validated @RequestBody SysNotice notice)
     {
-        return toAjax(noticeService.isreadNoticeByIds(noticeIds));
+        notice.setReadNotice("1");
+        return toAjax(noticeService.setReadNotice(notice));
     }
+
+    /**
+     * 将多条通知公告标记为已读
+     */
+    @Log(title = "公告标记为已读", businessType = BusinessType.UPDATE)
+    @PutMapping("/updateNoticesToRead{noticeIds}")
+    public AjaxResult updateNoticesToRead(@PathVariable Long[] noticeIds)
+    {
+        return toAjax(noticeService.updateNoticesToRead(noticeIds));
+    }
+
     /**
      * 修改通知公告
      */
@@ -84,6 +99,7 @@ public class SysNoticeController extends BaseController
     public AjaxResult edit(@Validated @RequestBody SysNotice notice)
     {
         notice.setUpdateBy(getUsername());
+        notice.setReadNotice("0");
         return toAjax(noticeService.updateNotice(notice));
     }
 

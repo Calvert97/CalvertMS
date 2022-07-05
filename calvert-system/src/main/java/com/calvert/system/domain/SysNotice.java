@@ -1,5 +1,6 @@
 package com.calvert.system.domain;
 
+import com.calvert.common.annotation.Excel;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -19,11 +20,21 @@ public class SysNotice extends BaseEntity
     /** 公告ID */
     private Long noticeId;
 
+    /** 公告ID */
+    private Long[] noticeIds;
+
     /** 公告标题 */
     private String noticeTitle;
 
     /** 公告类型（1通知 2公告） */
     private String noticeType;
+
+    /** 是否已读公告（0未读 1已读） */
+    private String readNotice;
+
+    /** 是否已读，仅在制定通知接收人时使用 */
+    @Excel(name = "是否已读，仅在制定通知接收人时使用")
+    private String isRead;
 
     /** 公告内容 */
     private String noticeContent;
@@ -39,6 +50,16 @@ public class SysNotice extends BaseEntity
     public void setNoticeId(Long noticeId)
     {
         this.noticeId = noticeId;
+    }
+
+    public Long[] getNoticeIds()
+    {
+        return noticeIds;
+    }
+
+    public void setNoticeIds(Long[] noticeIds)
+    {
+        this.noticeIds = noticeIds;
     }
 
     public void setNoticeTitle(String noticeTitle)
@@ -64,6 +85,16 @@ public class SysNotice extends BaseEntity
         return noticeType;
     }
 
+    public void setReadNotice(String readNotice)
+    {
+        this.readNotice = readNotice;
+    }
+
+    public String getReadNotice()
+    {
+        return readNotice;
+    }
+
     public void setNoticeContent(String noticeContent)
     {
         this.noticeContent = noticeContent;
@@ -84,12 +115,14 @@ public class SysNotice extends BaseEntity
         return status;
     }
 
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("noticeId", getNoticeId())
             .append("noticeTitle", getNoticeTitle())
             .append("noticeType", getNoticeType())
+            .append("readNotice", getReadNotice())
             .append("noticeContent", getNoticeContent())
             .append("status", getStatus())
             .append("createBy", getCreateBy())

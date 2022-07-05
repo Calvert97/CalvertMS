@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 通知公告表 数据层
- * 
+ *
  * @author ruoyi
  */
 @Mapper
@@ -14,7 +14,7 @@ public interface SysNoticeMapper
 {
     /**
      * 查询公告信息
-     * 
+     *
      * @param noticeId 公告ID
      * @return 公告信息
      */
@@ -22,7 +22,7 @@ public interface SysNoticeMapper
 
     /**
      * 查询公告列表
-     * 
+     *
      * @param notice 公告信息
      * @return 公告集合
      */
@@ -30,39 +30,23 @@ public interface SysNoticeMapper
 
     /**
      * 新增公告
-     * 
+     *
      * @param notice 公告信息
      * @return 结果
      */
     public int insertNotice(SysNotice notice);
 
     /**
-     * 删除公告
-     *
-     * @param noticeId 公告ID
-     * @return 结果
-     */
-    public int isreadNoticeById(Long noticeId);
-
-    /**
-     * 批量删除公告信息
-     *
-     * @param noticeIds 需要删除的公告ID
-     * @return 结果
-     */
-    public int isreadNoticeByIds(Long[] noticeIds);
-
-    /**
      * 修改公告
-     * 
+     *
      * @param notice 公告信息
      * @return 结果
      */
     public int updateNotice(SysNotice notice);
 
     /**
-     * 删除公告
-     * 
+     * 批量删除公告
+     *
      * @param noticeId 公告ID
      * @return 结果
      */
@@ -70,9 +54,33 @@ public interface SysNoticeMapper
 
     /**
      * 批量删除公告信息
-     * 
+     *
      * @param noticeIds 需要删除的公告ID
      * @return 结果
      */
     public int deleteNoticeByIds(Long[] noticeIds);
+
+    /**
+     * 已读公告信息
+     *
+     * @param notice 需要已读的公告ID
+     * @return 结果
+     */
+    public int setReadNotice(SysNotice notice);
+
+    /**
+     * 批量已读公告信息
+     *
+     * @param noticeId 需要已读的公告ID
+     * @return 结果
+     */
+    public int updateNoticeToRead(Long[] noticeId);
+
+    /**
+     * 批量已读公告信息
+     *
+     * @param noticeIds 需要已读的公告ID
+     * @return 结果
+     */
+    public int updateNoticesToRead(Long[] noticeIds);
 }

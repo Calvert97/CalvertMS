@@ -13,8 +13,9 @@ import com.calvert.system.service.ISysNoticeService;
  * @author ruoyi
  */
 @Service
-public class SysNoticeServiceImpl implements ISysNoticeService
+public class SysNoticeServiceImpl  implements ISysNoticeService
 {
+
     @Autowired
     private SysNoticeMapper noticeMapper;
 
@@ -54,15 +55,35 @@ public class SysNoticeServiceImpl implements ISysNoticeService
         return noticeMapper.insertNotice(notice);
     }
 
+
+    /**
+     * 批量已读公告信息
+     *
+     * @param notice 需要删除的公告ID
+     * @return 结果
+     */
     @Override
-    public int isreadNoticeById(Long noticeId) {
-        return 0;
+    public int setReadNotice(SysNotice notice)
+    {
+//        SysNotice sysNotice = new SysNotice();
+//        sysNotice.setNoticeIds(noticeIds);
+//        sysNotice.setReadNotice("1");
+//        return this.save(sysNotice);
+        return noticeMapper.setReadNotice(notice);
     }
 
+    /**
+     * 批量已读公告信息
+     *
+     * @param noticeIds 需要删除的公告ID
+     * @return 结果
+     */
     @Override
-    public int isreadNoticeByIds(Long[] noticeId) {
-        return 0;
+    public int updateNoticesToRead(Long[] noticeIds)
+    {
+        return noticeMapper.updateNoticesToRead(noticeIds);
     }
+    
 
     /**
      * 修改公告

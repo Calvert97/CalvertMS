@@ -1,5 +1,6 @@
 package com.calvert.common.core.domain;
 
+import com.calvert.common.constant.Constants;
 import java.io.Serializable;
 import com.calvert.common.constant.HttpStatus;
 
@@ -23,6 +24,22 @@ public class R<T> implements Serializable
     private String msg;
 
     private T data;
+
+    public R(T data, int code, String msg) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
+
+    public static <T> R<T> success()
+    {
+        return new R(null, SUCCESS, null);
+    }
+
+    public static <T> R<T> success(String msg)
+    {
+        return new R(null, SUCCESS, msg);
+    }
 
     public static <T> R<T> ok()
     {
@@ -64,9 +81,17 @@ public class R<T> implements Serializable
         return restResult(null, code, msg);
     }
 
+    public static <T> R<T> status(boolean flag) {
+        return flag ? success(Constants.DEFAULT_SUCCESS_MESSAGE) : fail(Constants.DEFAULT_FAILURE_MESSAGE);
+    }
+
+    public static <T> R<T> status(int rows) {
+        return rows > 0 ? success(Constants.DEFAULT_SUCCESS_MESSAGE) : fail(Constants.DEFAULT_FAILURE_MESSAGE);
+    }
+
     private static <T> R<T> restResult(T data, int code, String msg)
     {
-        R<T> apiResult = new R<>();
+        R<T> apiResult = new R<>(null,0,null);
         apiResult.setCode(code);
         apiResult.setData(data);
         apiResult.setMsg(msg);

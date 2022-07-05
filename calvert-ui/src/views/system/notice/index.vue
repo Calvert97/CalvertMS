@@ -44,16 +44,6 @@
           v-hasPermi="['system:notice:add']"
         >新增</el-button>
       </el-col>
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="el-icon-view"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleIsread"-->
-<!--        >已读</el-button>-->
-<!--      </el-col>-->
       <el-col :span="1.5">
         <el-button
           type="danger"
@@ -277,6 +267,7 @@ export default {
         noticeTitle: undefined,
         noticeType: undefined,
         noticeContent: undefined,
+        readNotice:"0",
         status: "0"
       };
       this.resetForm("form");

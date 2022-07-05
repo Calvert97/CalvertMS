@@ -15,12 +15,23 @@
         system系统模块
     </description>
 
+    <properties>
+        <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
+    </properties>
+
     <dependencies>
 
         <!-- 通用工具-->
         <dependency>
             <groupId>com.calvert</groupId>
             <artifactId>calvert-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${commons-beanutils.version}</version>
         </dependency>
 
     </dependencies>

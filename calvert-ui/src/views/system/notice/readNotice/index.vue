@@ -43,43 +43,33 @@
           icon="el-icon-view"
           size="mini"
           :disabled="multiple"
-        >已读</el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
-          type="danger"
-          plain
-          icon="el-icon-delete"
-          size="mini"
-          :disabled="multiple"
-          @click="handleDelete"
-          v-hasPermi="['system:notice:remove']"
-        >删除</el-button>
+          @click = "updateNoticeToRead"
+        >标记已读</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="noticeList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="序号" align="center" prop="noticeId" width="100" />
+      <el-table-column label="序号" align="center" prop="noticeId" width="150" />
       <el-table-column
         label="公告标题"
         align="center"
         prop="noticeTitle"
         :show-overflow-tooltip="true"
       />
-      <el-table-column label="公告类型" align="center" prop="noticeType" width="100">
+      <el-table-column label="公告类型" align="center" prop="noticeType" width="150">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_notice_type" :value="scope.row.noticeType"/>
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="status" width="100">
+      <el-table-column label="状态" align="center" prop="readNotice" width="150">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_notice_read_status" :value="scope.row.status"/>
+          <dict-tag :options="dict.type.sys_notice_read_status" :value="scope.row.readNotice"/>
         </template>
       </el-table-column>
-      <el-table-column label="创建者" align="center" prop="createBy" width="100" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="100">
+      <el-table-column label="创建者" align="center" prop="createBy" width="150" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="150">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
@@ -92,12 +82,6 @@
             icon="el-icon-view"
             @click="openDetailDialog(scope.row.noticeId)"
           >查看</el-button>
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -129,13 +113,17 @@
 </template>
 
 <script>
-import {listNotice, getNotice, delNotice} from "@/api/system/notice";
+import {listNotice, getNotice, updateNoticeToRead, updateNoticesToRead} from "@/api/system/notice";
 
 export default {
   name: "Notice",
   dicts: ['sys_notice_read_status', 'sys_notice_type'],
   data() {
     return {
+      //选择公告信息的Key
+      selectedRowKeys: [],
+      //选择公告信息
+      selectedRows: [],
       //详情加载
       loadingDetail: false,
       // 打开详情
@@ -168,15 +156,6 @@ export default {
       },
       // 表单参数
       form: {},
-      // 表单校验
-      rules: {
-        noticeTitle: [
-          { required: true, message: "公告标题不能为空", trigger: "blur" }
-        ],
-        noticeType: [
-          { required: true, message: "公告类型不能为空", trigger: "change" }
-        ]
-      }
     };
   },
   created() {
@@ -204,6 +183,7 @@ export default {
         noticeTitle: undefined,
         noticeType: undefined,
         noticeContent: undefined,
+        readNotice : "0",
         status: "0"
       };
       this.resetForm("form");
@@ -224,6 +204,16 @@ export default {
       this.single = selection.length!=1
       this.multiple = !selection.length
     },
+    /** 批量已读按钮操作 */
+    updateNoticeToRead(row){
+      const noticeIds = row.id || this.ids;
+      this.$modal.confirm('确认标记所选数据?').then(function () {
+        return updateNoticesToRead(noticeIds);
+      }).then(() => {
+          this.$modal.msgSuccess("标记成功");
+          this.getList();
+        });
+    },
     /** 阅读按钮操作 */
     openDetailDialog(id) {
       this.openDetail = true;
@@ -232,6 +222,9 @@ export default {
         this.form = response.data;
         this.openDetail = true;
         this.loadingDetail = false;
+        updateNoticeToRead(this.form).then(response => {
+          this.getList();
+        })
       });
     },
     // 取消按钮
@@ -240,16 +233,11 @@ export default {
       this.openDetail = false;
       this.reset();
     },
-    /** 删除按钮操作 */
-    handleDelete(row) {
-      const noticeIds = row.noticeId || this.ids
-      this.$modal.confirm('是否确认删除公告编号为"' + noticeIds + '"的数据项？').then(function() {
-        return delNotice(noticeIds);
-      }).then(() => {
-        this.getList();
-        this.$modal.msgSuccess("删除成功");
-      }).catch(() => {});
-    }
   }
 };
 </script>
+
+<style>
+
+
+</style>

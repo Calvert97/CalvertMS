@@ -35,22 +35,6 @@ public interface ISysNoticeService
     public int insertNotice(SysNotice notice);
 
     /**
-     * 批量已读公告
-     *
-     * @param noticeId 公告信息
-     * @return 结果
-     */
-    public int isreadNoticeById(Long noticeId);
-
-    /**
-     * 批量已读公告
-     *
-     * @param noticeId 公告信息
-     * @return 结果
-     */
-    public int isreadNoticeByIds(Long[] noticeId);
-
-    /**
      * 修改公告
      * 
      * @param notice 公告信息
@@ -73,4 +57,20 @@ public interface ISysNoticeService
      * @return 结果
      */
     public int deleteNoticeByIds(Long[] noticeIds);
+
+    /**
+     * 批量删除公告信息
+     *
+     * @param notice 需要标记的公告ID
+     * @return 结果
+     */
+    public int setReadNotice(SysNotice notice);
+
+    /**
+     * 批量删除公告信息
+     *
+     * @param noticeIds 需要标记的公告ID
+     * @return 结果
+     */
+    public int updateNoticesToRead(Long[] noticeIds);
 }

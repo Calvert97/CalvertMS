@@ -134,4 +134,13 @@ public class Constants
      */
     public static final String[] JOB_ERROR_STR = { "java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
             "org.springframework", "org.apache", "com.calvert.common.utils.file" };
+
+    /**
+     * 默认成功消息
+     */
+    public static final String DEFAULT_SUCCESS_MESSAGE = "操作成功";
+    /**
+     * 默认失败消息
+     */
+    public static final String DEFAULT_FAILURE_MESSAGE = "操作失败";
 }
