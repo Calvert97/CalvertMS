@@ -166,7 +166,11 @@ export default {
     getList() {
       this.loading = true;
       listNotice(this.queryParams).then(response => {
-        this.noticeList = response.rows;
+        for (let i = 0; i < response.rows.length; i++) {
+          if (response.rows[i].status === "0") {
+            this.$set(this.noticeList, i, response.rows[i]);
+          }
+        }
         this.total = response.total;
         this.loading = false;
       });

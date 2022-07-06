@@ -17,9 +17,8 @@
 <!--          <ruo-yi-doc id="ruoyi-doc" class="right-menu-item hover-effect" />-->
 <!--        </el-tooltip>-->
 
-        <notification id="notification" class="right-menu-item hover-effect" />
-
-        <screenfull id="screenfull" class="right-menu-item hover-effect" />
+        <notification id="notification" class="right-menu-item hover-effect notification" />
+        <screenfull id="screenfull" class="right-menu-item hover-effect screenfull" />
 
 <!--        <el-tooltip content="布局大小" effect="dark" placement="bottom">-->
           <size-select id="size-select" class="right-menu-item hover-effect" />
@@ -202,4 +201,14 @@ export default {
     }
   }
 }
+
+.notification {
+  margin-top: -15px !important;
+  margin-right: -10px;
+}
+
+.screenfull {
+  margin-left: 16px !important;
+}
+
 </style>
