@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import {listNotice} from "@/api/system/notice";
+import {listNotice, listNoticeByUser} from "@/api/system/notice";
 
 export default {
   name: 'Notification',
@@ -20,10 +20,11 @@ export default {
     }
   },
   mounted() {
-    listNotice(this.queryParams).then(response => {
+    listNoticeByUser(this.queryParams).then(response => {
       this.noticeCount = response.rows.length;
+      console.log(response.rows[0].isRead);
       for (let i = 0; i < this.noticeCount; i++) {
-        if (response.rows[i].readNotice === "0" && response.rows[i].status === "0") {
+        if (response.rows[i].isRead === null && response.rows[i].status === "0") {
           this.unreadNoticeCount++;
         }
       }

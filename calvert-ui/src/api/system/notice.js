@@ -17,6 +17,15 @@ export function getNotice(noticeId) {
   })
 }
 
+// 查询公告详细
+export function getNoticeByUser(data) {
+  return request({
+    url: '/system/notice/getNoticeByUser/',
+    method: 'get',
+    data: data
+  })
+}
+
 // 新增公告
 export function addNotice(data) {
   return request({
@@ -29,7 +38,6 @@ export function addNotice(data) {
 // 已读公告
 export function updateNoticeToRead (data) {
   return request({
-    // url: '/system/notice/updateNoticeToRead/' + noticeIds,
     url: '/system/notice/updateNoticeToRead',
     method: 'put',
     data: data
@@ -60,3 +68,33 @@ export function delNotice(noticeId) {
     method: 'delete'
   })
 }
+
+// 查询个人公告阅读列表
+export function listNoticeByUser (query) {
+  return request({
+    url: '/system/notice/listNoticeByUser',
+    method: 'get',
+    params: query
+  })
+}
+
+// ？？？
+export function insertNoticeInfoToUserRead(data) {
+  return request({
+    url: '/system/notice/insertNoticeInfoToUserRead',
+    method: 'post',
+    data: data
+  })
+}
+
+// 已读公告
+export function updateUserIdToUserRead (data) {
+  return request({
+    url: '/system/notice/updateUserIdToUserRead',
+    method: 'put',
+    data: data
+  })
+}
+
+
+

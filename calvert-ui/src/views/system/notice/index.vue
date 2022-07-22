@@ -267,6 +267,7 @@ export default {
         noticeTitle: undefined,
         noticeType: undefined,
         noticeContent: undefined,
+        isRead:"0",
         readNotice:"0",
         status: "0"
       };

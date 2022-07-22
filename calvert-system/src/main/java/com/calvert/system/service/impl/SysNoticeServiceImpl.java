@@ -1,6 +1,7 @@
 package com.calvert.system.service.impl;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.calvert.system.domain.SysNotice;
@@ -21,7 +22,19 @@ public class SysNoticeServiceImpl  implements ISysNoticeService
 
     /**
      * 查询公告信息
-     * 
+     *
+     * @param notice 公告ID
+     * @return 公告信息
+     */
+    @Override
+    public int getNoticeByUser(SysNotice notice)
+    {
+        return noticeMapper.getNoticeByUser(notice);
+    }
+
+    /**
+     * 查询公告信息
+     *
      * @param noticeId 公告ID
      * @return 公告信息
      */
@@ -41,6 +54,18 @@ public class SysNoticeServiceImpl  implements ISysNoticeService
     public List<SysNotice> selectNoticeList(SysNotice notice)
     {
         return noticeMapper.selectNoticeList(notice);
+    }
+
+    /**
+     * 查询用户公告列表
+     *
+     * @param notice 公告信息
+     * @return 公告集合
+     */
+    @Override
+    public List<SysNotice> findNoticeByUser(SysNotice notice)
+    {
+        return noticeMapper.findNoticeByUser(notice);
     }
 
     /**
@@ -65,10 +90,6 @@ public class SysNoticeServiceImpl  implements ISysNoticeService
     @Override
     public int setReadNotice(SysNotice notice)
     {
-//        SysNotice sysNotice = new SysNotice();
-//        sysNotice.setNoticeIds(noticeIds);
-//        sysNotice.setReadNotice("1");
-//        return this.save(sysNotice);
         return noticeMapper.setReadNotice(notice);
     }
 
@@ -120,4 +141,30 @@ public class SysNoticeServiceImpl  implements ISysNoticeService
     {
         return noticeMapper.deleteNoticeByIds(noticeIds);
     }
+
+
+    /**
+     * 新增公告
+     *
+     * @param notice 公告信息
+     * @return 结果
+     */
+    @Override
+    public int insertNoticeInfoToUserRead(SysNotice notice)
+    {
+        return noticeMapper.insertNoticeInfoToUserRead(notice);
+    }
+
+    /**
+     * 新增公告
+     *
+     * @param notice 公告信息
+     * @return 结果
+     */
+    @Override
+    public int updateUserIdToUserRead(SysNotice notice)
+    {
+        return noticeMapper.updateUserIdToUserRead(notice);
+    }
+
 }

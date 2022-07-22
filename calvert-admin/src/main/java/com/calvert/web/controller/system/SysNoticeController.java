@@ -47,6 +47,18 @@ public class SysNoticeController extends BaseController
     }
 
     /**
+     * 获取通知公告列表
+     */
+    @GetMapping("/listNoticeByUser")
+    public TableDataInfo listNoticeByUser(SysNotice notice)
+    {
+        startPage();
+        notice.setUserId(getUserId());
+        List<SysNotice> list = noticeService.findNoticeByUser(notice);
+        return getDataTable(list);
+    }
+
+    /**
      * 根据通知公告编号获取详细信息
      */
     @PreAuthorize("@ss.hasPermi('system:notice:query')")
@@ -54,6 +66,15 @@ public class SysNoticeController extends BaseController
     public AjaxResult getInfo(@PathVariable Long noticeId)
     {
         return AjaxResult.success(noticeService.selectNoticeById(noticeId));
+    }
+
+    /**
+     * 根据通知公告编号获取详细信息
+     */
+    @GetMapping("/getNoticeByUser")
+    public AjaxResult getNoticeByUser(@Validated @RequestBody SysNotice notice)
+    {
+        return toAjax(noticeService.getNoticeByUser(notice));
     }
 
     /**
@@ -69,14 +90,15 @@ public class SysNoticeController extends BaseController
     }
 
      /**
-     * 将通知公告标记为已读
+     * 将单条通知公告标记为已读
      */
 //    @PreAuthorize("@ss.hasPermi('system:notice:updateNoticeToRead')")
     @Log(title = "公告标记为已读", businessType = BusinessType.UPDATE)
     @PutMapping("/updateNoticeToRead")
     public AjaxResult updateNoticeToRead(@Validated @RequestBody SysNotice notice)
     {
-        notice.setReadNotice("1");
+//        notice.setReadNotice("1");
+        notice.setIsRead("1");
         return toAjax(noticeService.setReadNotice(notice));
     }
 
@@ -100,6 +122,7 @@ public class SysNoticeController extends BaseController
     {
         notice.setUpdateBy(getUsername());
         notice.setReadNotice("0");
+        notice.setIsRead("0");
         return toAjax(noticeService.updateNotice(notice));
     }
 
@@ -113,4 +136,29 @@ public class SysNoticeController extends BaseController
     {
         return toAjax(noticeService.deleteNoticeByIds(noticeIds));
     }
+
+     // author Calvert
+
+    /**
+     * 获取个人公告阅读列表
+     */
+    @PostMapping("/insertNoticeInfoToUserRead")
+    public AjaxResult insertNoticeInfoToUserRead(@Validated @RequestBody SysNotice notice)
+    {
+        notice.setUserId(getUserId());
+        notice.setReadNotice("1");
+        notice.setIsRead("1");
+        return toAjax(noticeService.insertNoticeInfoToUserRead(notice));
+    }
+    /**
+     * 将单条通知公告标记为已读
+     */
+    @PutMapping("/updateUserIdToUserRead")
+    public AjaxResult updateUserIdToUserRead(@Validated @RequestBody SysNotice notice)
+    {
+        return toAjax(noticeService.updateUserIdToUserRead(notice));
+    }
+
+
+
 }

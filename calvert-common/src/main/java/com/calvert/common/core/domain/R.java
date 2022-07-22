@@ -25,6 +25,11 @@ public class R<T> implements Serializable
 
     private T data;
 
+    public static <T> R<T> data(T data)
+    {
+        return new R(data, SUCCESS, null);
+    }
+
     public R(T data, int code, String msg) {
         this.code = code;
         this.msg = msg;

@@ -19,12 +19,28 @@ public interface ISysNoticeService
     public SysNotice selectNoticeById(Long noticeId);
 
     /**
+     * 查询公告信息
+     *
+     * @param notice 公告ID
+     * @return 公告信息
+     */
+    public int getNoticeByUser(SysNotice notice);
+
+    /**
      * 查询公告列表
      * 
      * @param notice 公告信息
      * @return 公告集合
      */
     public List<SysNotice> selectNoticeList(SysNotice notice);
+
+    /**
+     * 查询用户公告列表
+     *
+     * @param notice 公告信息
+     * @return 公告集合
+     */
+    public List<SysNotice> findNoticeByUser(SysNotice notice);
 
     /**
      * 新增公告
@@ -73,4 +89,20 @@ public interface ISysNoticeService
      * @return 结果
      */
     public int updateNoticesToRead(Long[] noticeIds);
+
+    /**
+     * 新增公告
+     *
+     * @param notice 公告信息
+     * @return 结果
+     */
+    public int insertNoticeInfoToUserRead(SysNotice notice);
+
+    /**
+     * 新增公告
+     *
+     * @param notice 公告信息
+     * @return 结果
+     */
+    public int updateUserIdToUserRead(SysNotice notice);
 }

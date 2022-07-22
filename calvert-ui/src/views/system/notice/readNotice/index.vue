@@ -43,7 +43,7 @@
           icon="el-icon-view"
           size="mini"
           :disabled="multiple"
-          @click = "updateNoticeToRead"
+          @click = "handleUpdateNoticeToRead"
         >标记已读</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
@@ -65,7 +65,7 @@
       </el-table-column>
       <el-table-column label="状态" align="center" prop="readNotice" width="150">
         <template slot-scope="scope">
-          <dict-tag :options="dict.type.sys_notice_read_status" :value="scope.row.readNotice"/>
+          <dict-tag :options="dict.type.sys_notice_read_status"  :value="isReadFormat(scope)"/>
         </template>
       </el-table-column>
       <el-table-column label="创建者" align="center" prop="createBy" width="150" />
@@ -80,7 +80,7 @@
             size="mini"
             type="text"
             icon="el-icon-view"
-            @click="openDetailDialog(scope.row.noticeId)"
+            @click="openDetailDialog(scope.row.noticeId, scope.row)"
           >查看</el-button>
         </template>
       </el-table-column>
@@ -113,7 +113,14 @@
 </template>
 
 <script>
-import {listNotice, getNotice, updateNoticeToRead, updateNoticesToRead} from "@/api/system/notice";
+import {
+  getNotice,
+  listNoticeByUser,
+  getNoticeByUser,
+  updateNoticesToRead,
+  insertNoticeInfoToUserRead,
+  updateUserIdToUserRead, updateNotice, updateNoticeToRead
+} from "@/api/system/notice";
 
 export default {
   name: "Notice",
@@ -165,7 +172,7 @@ export default {
     /** 查询公告列表 */
     getList() {
       this.loading = true;
-      listNotice(this.queryParams).then(response => {
+      listNoticeByUser(this.queryParams).then(response => {
         for (let i = 0; i < response.rows.length; i++) {
           if (response.rows[i].status === "0") {
             this.$set(this.noticeList, i, response.rows[i]);
@@ -187,6 +194,7 @@ export default {
         noticeTitle: undefined,
         noticeType: undefined,
         noticeContent: undefined,
+        isRead : "0",
         readNotice : "0",
         status: "0"
       };
@@ -202,6 +210,14 @@ export default {
       this.resetForm("queryForm");
       this.handleQuery();
     },
+    //是否已读
+    isReadFormat(data){
+      if (data.row.isRead !== null && data.row.isRead !== '') {
+        return data.row.isRead;
+      }else{
+        return 0;
+      }
+    },
     // 多选框选中数据
     handleSelectionChange(selection) {
       this.ids = selection.map(item => item.noticeId)
@@ -209,7 +225,7 @@ export default {
       this.multiple = !selection.length
     },
     /** 批量已读按钮操作 */
-    updateNoticeToRead(row){
+    handleUpdateNoticeToRead(row){
       const noticeIds = row.id || this.ids;
       this.$modal.confirm('确认标记所选数据?').then(function () {
         return updateNoticesToRead(noticeIds);
@@ -219,17 +235,27 @@ export default {
         });
     },
     /** 阅读按钮操作 */
-    openDetailDialog(id) {
+    openDetailDialog(id,row) {
       this.openDetail = true;
       this.loadingDetail = true;
       getNotice(id).then(response => {
         this.form = response.data;
         this.openDetail = true;
         this.loadingDetail = false;
-        updateNoticeToRead(this.form).then(response => {
-          this.getList();
-        })
+        this.loading = true;
+        // console.log(row.isRead)
+        if (row.isRead == null && row.readNotice == null) {
+          insertNoticeInfoToUserRead(this.form).then(() => {
+            row.isRead = "1";
+            // console.log(row.isRead)
+            // this.getList();
+            this.$children[0].$children[0].$forceUpdate();
+            this.loading = false;
+          })
+
+        }
       });
+      // console.log(row.isRead);
     },
     // 取消按钮
     closeDetail() {

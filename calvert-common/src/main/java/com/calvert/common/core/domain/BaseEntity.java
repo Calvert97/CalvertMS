@@ -214,6 +214,10 @@ public class BaseEntity<T> implements Serializable
         return page;
     }
 
+    public void setPage(PageDomain page) {
+        this.page = page;
+    }
+
     /**
      * 是否是新记录（默认：false），调用setIsNewRecord()设置新记录，使用自定义ID。
      * 设置为true后强制执行插入语句，ID不会自动生成，需从手动传入。
@@ -282,5 +286,7 @@ public class BaseEntity<T> implements Serializable
     public boolean isRecordLog() {
         return true;
     }
+
+
 
 }

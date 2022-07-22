@@ -6,6 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     
     <resultMap type="SysNotice" id="SysNoticeResult">
         <result property="noticeId"       column="notice_id"       />
+        <result property="userId"         column="user_id"       />
+        <result property="isRead"         column="is_read"       />
         <result property="noticeTitle"    column="notice_title"    />
         <result property="noticeType"     column="notice_type"     />
         <result property="readNotice"     column="notice_read_status"     />
@@ -27,6 +29,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectNoticeVo"/>
         where notice_id = #{noticeId}
     </select>
+
+    <select id="getNoticeByUser" parameterType="SysNotice" resultMap="SysNoticeResult">
+
+    </select>
     
     <select id="selectNoticeList" parameterType="SysNotice" resultMap="SysNoticeResult">
         <include refid="selectNoticeVo"/>
@@ -44,6 +50,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				AND create_by like concat('%', #{createBy}, '%')
 			</if>
 		</where>
+    </select>
+
+<!--    <select id="getNoticeListByUserId" resultType="SysNotice">-->
+<!--        select-->
+<!--        notice_id, notice_title-->
+<!--        from sys_notice-->
+<!--        where not EXISTS (-->
+<!--        select-->
+<!--        1-->
+<!--        from-->
+<!--        sys_notice_user_read t-->
+<!--        where-->
+<!--        a.id = t.notice_id-->
+<!--        and t.user_id = #{userId}-->
+<!--        )-->
+<!--    </select>-->
+
+    <select id="findNoticeByUser" parameterType="SysNotice" resultMap="SysNoticeResult">
+        select n.notice_id, n.notice_title, n.notice_type, n.status, n.create_by, cast(n.notice_content as char) as notice_content, n.update_by, n.update_time, n.remark, n.create_time, nr.is_read
+        from sys_notice n
+        left join sys_notice_user_read nr
+        on n.notice_id = nr.notice_id and nr.user_id = #{userId}
+        <where>
+            <if test="noticeTitle != null and noticeTitle != ''">
+                AND n.notice_title like concat('%', #{noticeTitle}, '%')
+            </if>
+            <if test="noticeType != null and noticeType != ''">
+                AND n.notice_type = #{noticeType}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND n.create_by like concat('%', #{createBy}, '%')
+            </if>
+        </where>
     </select>
     
     <insert id="insertNotice" parameterType="SysNotice">
@@ -93,10 +132,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+
+<!--    author Calvert -->
+
     <update id="setReadNotice" parameterType="SysNotice">
-        update sys_notice
+        update sys_notice_user_read
         <set>
-            <if test="readNotice != null and readNotice != ''">notice_read_status = #{readNotice}, </if>
+            is_read = #{isRead}
         </set>
         where notice_id = #{noticeId}
     </update>
@@ -111,5 +153,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{noticeId}
         </foreach>
     </update>
+
+
+    <insert id="insertNoticeInfoToUserRead" parameterType="SysNotice">
+        insert into sys_notice_user_read
+            (notice_id, user_id, is_read, status, remark, create_time, update_time, create_by, read_time)
+        values
+            (#{noticeId}, #{userId}, #{isRead}, #{status}, #{remark}, #{createTime}, #{updateTime}, #{createBy}, sysdate())
+    </insert>
+
+    <update id="updateUserIdToUserRead" parameterType="SysNotice">
+        update sys_notice_user_read
+        <set>
+            user_id = #{userId}
+        </set>
+        where notice_id = #{noticeId}
+    </update>
+
+
+
+
+
+
     
 </mapper>

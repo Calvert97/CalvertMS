@@ -32,9 +32,9 @@ public class SysNotice extends BaseEntity
     /** 是否已读公告（0未读 1已读） */
     private String readNotice;
 
-    /** 是否已读，仅在制定通知接收人时使用 */
-    @Excel(name = "是否已读，仅在制定通知接收人时使用")
     private String isRead;
+
+    private Long userId;
 
     /** 公告内容 */
     private String noticeContent;
@@ -115,12 +115,34 @@ public class SysNotice extends BaseEntity
         return status;
     }
 
+    public Long getUserId()
+    {
+        return userId;
+    }
+
+    public void setUserId(Long userId)
+    {
+        this.userId = userId;
+    }
+
+
+    public String getIsRead()
+    {
+        return isRead;
+    }
+
+    public void setIsRead(String isRead)
+    {
+        this.isRead = isRead;
+    }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("noticeId", getNoticeId())
             .append("noticeTitle", getNoticeTitle())
+            .append("userId", getUserId())
+            .append("isRead", getIsRead())
             .append("noticeType", getNoticeType())
             .append("readNotice", getReadNotice())
             .append("noticeContent", getNoticeContent())

@@ -3,6 +3,7 @@ package com.calvert.system.mapper;
 import java.util.List;
 import com.calvert.system.domain.SysNotice;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 通知公告表 数据层
@@ -21,12 +22,28 @@ public interface SysNoticeMapper
     public SysNotice selectNoticeById(Long noticeId);
 
     /**
+     * 查询公告信息
+     *
+     * @param notice 公告ID
+     * @return 公告信息
+     */
+    public int getNoticeByUser(SysNotice notice);
+
+    /**
      * 查询公告列表
      *
      * @param notice 公告信息
      * @return 公告集合
      */
     public List<SysNotice> selectNoticeList(SysNotice notice);
+
+    /**
+     * 查询用户公告列表
+     *
+     * @param notice 公告信息
+     * @return 公告集合
+     */
+    public List<SysNotice> findNoticeByUser(SysNotice notice);
 
     /**
      * 新增公告
@@ -79,8 +96,28 @@ public interface SysNoticeMapper
     /**
      * 批量已读公告信息
      *
-     * @param noticeIds 需要已读的公告ID
+     * @param noticeId 需要已读的公告ID
      * @return 结果
      */
-    public int updateNoticesToRead(Long[] noticeIds);
+    public int updateNoticesToRead(Long[] noticeId);
+
+    /**
+     * 批量已读公告信息
+     *
+     * @param notice 需要已读的公告ID
+     * @return 结果
+     */
+    public int insertNoticeInfoToUserRead(SysNotice notice);
+
+    /**
+     * 批量已读公告信息
+     *
+     * @param notice 需要已读的公告ID
+     * @return 结果
+     */
+    public int updateUserIdToUserRead(SysNotice notice);
+
+
+
+
 }
